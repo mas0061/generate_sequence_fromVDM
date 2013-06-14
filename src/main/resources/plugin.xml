@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+   <extension point="com.change_vision.astah.ui.actionSets">
+      <actionSet
+            label="%action_set_label"
+            visible="true"
+            id="net.mas0061.astah.plugin.sequence.generate_sequence_fromVDM.actionSet">
+         <menu
+               id="generate_sequence_fromVDM"
+               label="%menu_group"
+               path="tool/c_plus">
+         </menu>
+         <action
+			   label="%menu_label"
+               icon="icons/sample.gif"
+               class="net.mas0061.astah.plugin.sequence.TemplateAction"
+               tooltip="%menu_tooltip"
+               menubarPath="tool/generate_sequence_fromVDM/"
+               id="generate_sequence_fromVDM">
+         </action>
+     </actionSet>
+   </extension>
+</plugin>
