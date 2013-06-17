@@ -7,6 +7,7 @@ import com.change_vision.jude.api.inf.editor.SequenceDiagramEditor
 import com.change_vision.jude.api.inf.editor.TransactionManager
 import com.change_vision.jude.api.inf.exception.InvalidEditingException
 import com.change_vision.jude.api.inf.model.ISequenceDiagram
+import com.change_vision.jude.api.inf.presentation.ILinkPresentation
 import com.change_vision.jude.api.inf.presentation.INodePresentation
 import com.change_vision.jude.api.inf.project.ProjectAccessor
 
@@ -51,23 +52,29 @@ class CreateSequenceDiagram {
 		
 		pos = 100
 		CallNode prevNode
+		ILinkPresentation prevLink;
+
 		llList.each { node ->
 			INodePresentation to = lifelines.find { it.getLabel() == node.className }
-			
+
 			try {
-				if (node.spaceNum == 0) {			
-					seqDiagEditor.createMessage(node.fnOpName, to, to, pos)
+				if (node.spaceNum == 0) {
+					prevLink = seqDiagEditor.createMessage(node.fnOpName, to, to, pos)
 				} else {
-					INodePresentation from = lifelines.find { it.getLabel() == prevNode.className }
-					seqDiagEditor.createMessage(node.fnOpName, from, to, pos)
+					if (prevNode.spaceNum <= node.spaceNum) {
+						prevLink = seqDiagEditor.createMessage(node.fnOpName, prevLink.getSource(), to, pos)
+					} else {
+						INodePresentation from = lifelines.find { it.getLabel() == prevNode.className }
+						prevLink = seqDiagEditor.createMessage(node.fnOpName, from, to, pos)
+					}
 				}
 			} catch (InvalidEditingException e) {
 				println e.key
 			}
-			
+
 			prevNode = node
 			pos += 50
-		}		
+		}
 		
 		TransactionManager.endTransaction()
 	}
