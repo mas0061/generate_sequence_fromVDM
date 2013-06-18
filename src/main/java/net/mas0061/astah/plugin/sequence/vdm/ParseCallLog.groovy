@@ -8,12 +8,11 @@ class ParseCallLog {
 	List<CallNode> parse(String fileName) {
 		List<String> orgList = new File(fileName).collect()
 		
-//		def top = orgList.first()
 		def top = orgList.find{ !(it =~ /^(Init|debug|print)/) && it =~ /.*`.*/ }
 		topSpaceNum = getSpaceNum(top)
 
 		List<CallNode> nodeList = []
-		orgList.grep(~/.*`.*/).findAll{ !(it =~ /^(Init|debug|print)/)  }.each {str->
+		orgList.findAll{ !(it =~ /^(Init|debug|print)/) && it =~ /.*`.*/ }.each {str->
 			def trimStr = str.stripIndent(topSpaceNum)
 			nodeList.add(createCallNode(trimStr))
 		}

@@ -43,14 +43,14 @@ class CreateSequenceDiagram {
 
 			List<INodePresentation> lifelines = []
 
-			def pos = 0
+			def posX = 0
 			llList.collect { it.className }.unique().each {
 				INodePresentation node = seqDiagEditor.createLifeline(it, pos)
 				lifelines.add(node)
-				pos += 200
+				posX += 200
 			}
 
-			pos = 100
+			def posY = 100
 			ILinkPresentation prevLink;
 			INodePresentation from = lifelines.first()
 
@@ -58,18 +58,18 @@ class CreateSequenceDiagram {
 				INodePresentation to = lifelines.find { it.getLabel() == node.className }
 
 				if (node.spaceNum == 0) {
-					prevLink = seqDiagEditor.createMessage(node.fnOpName, to, to, pos)
+					prevLink = seqDiagEditor.createMessage(node.fnOpName, to, to, posY)
 				} else {
 					CallNode prevNode = llList[idx - 1]
 					if (prevNode.spaceNum <= node.spaceNum) {
-						prevLink = seqDiagEditor.createMessage(node.fnOpName, prevLink.getTarget(), to, pos)
+						prevLink = seqDiagEditor.createMessage(node.fnOpName, prevLink.getTarget(), to, posY)
 					} else {
-						prevLink = seqDiagEditor.createMessage(node.fnOpName, from, to, pos)
+						prevLink = seqDiagEditor.createMessage(node.fnOpName, from, to, posY)
 						from = to
 					}
 				}
 
-				pos += 70
+				posY += 70
 			}
 
 			TransactionManager.endTransaction()
