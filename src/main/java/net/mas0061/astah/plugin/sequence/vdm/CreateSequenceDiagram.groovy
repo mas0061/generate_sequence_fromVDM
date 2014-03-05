@@ -45,7 +45,7 @@ class CreateSequenceDiagram {
 
 			def posX = 0
 			llList.collect { it.className }.unique().each {
-				INodePresentation node = seqDiagEditor.createLifeline(it, pos)
+				INodePresentation node = seqDiagEditor.createLifeline(it, posX)
 				lifelines.add(node)
 				posX += 200
 			}
